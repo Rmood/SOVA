@@ -30,7 +30,7 @@ namespace Sova.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetPosttype")]
         public IActionResult GetPosttype(int id)
         {
             var posttype = _dataService.GetPosttype(id);

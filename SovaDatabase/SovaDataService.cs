@@ -28,11 +28,16 @@ namespace SovaDatabase
             }
         }
 
-        public IList<Comment> GetComments()
+        public IList<Comment> GetComments(ResourceParameters resourceParameters)
         {
             using (var context = new SovaContext())
             {
-                return context.Comments.ToList();
+                //return context.Comments.ToList();
+                return context.Comments
+                    .OrderBy(x => x.Id)
+                    .Skip((resourceParameters.PageNumber - 1) * resourceParameters.PageSize)
+                    .Take(resourceParameters.PageSize)
+                    .ToList();
             }
         }
 
@@ -89,5 +94,14 @@ namespace SovaDatabase
                 context.SaveChanges();
             }
         }
+
+        public int GetCommentsCount()
+        {
+            using (var context = new SovaContext())
+            {
+                return context.Comments.Count();
+            }
+        }
+
     }
 }

@@ -11,12 +11,13 @@ namespace DataAccessLayer
     {
         IList<Tag> GetTags();
         Tag GetTag(int id);
-        IList<Comment> GetComments();
+        IList<Comment> GetComments(ResourceParameters resourceParameters);
         Comment GetComment(int id);
         IList<Posttype> GetPosttypes();
         Posttype GetPosttype(int id);
         void CreatePosttype(Posttype posttype);
         void UpdatePosttype(Posttype posttype);
         void DeletePosttype(Posttype posttype);
+        int GetCommentsCount();
     }
 }
