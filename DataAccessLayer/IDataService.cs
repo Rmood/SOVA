@@ -11,7 +11,7 @@ namespace DataAccessLayer
     {
         IList<Tag> GetTags();
         Tag GetTag(int id);
-        IList<Comment> GetComments(ResourceParameters resourceParameters);
+        PagedList<Comment> GetComments(ResourceParameters resourceParameters);
         Comment GetComment(int id);
         IList<Posttype> GetPosttypes();
         Posttype GetPosttype(int id);
