@@ -8,6 +8,7 @@ namespace Sova.Models
 {
     public class LinkedResourceModel
     {
-        public IList<LinkModel> LinkModels { get; set; } = new List<LinkModel>();
+        public string Url { get; set; }
+        public IList<LinkModel> Links { get; set; } = new List<LinkModel>();
     }
 }

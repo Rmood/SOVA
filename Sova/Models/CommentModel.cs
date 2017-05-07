@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Sova.Models
 {
-    public class CommentModel
+    public class CommentModel : LinkedResourceModel
     {
-        public int Id { get; set; }
+        // public int Id { get; set; }
         public int postId { get; set; }
         public int score { get; set; }
         public string text { get; set; }

@@ -11,6 +11,9 @@ using SovaDatabase;
 using DataAccessLayer;
 using AutoMapper;
 using DomainModel;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Sova.Models;
 
 namespace Sova
@@ -35,6 +38,9 @@ namespace Sova
             // Add framework services.
             services.AddMvc();
             services.AddSingleton<IDataService, SovaDataService>();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddScoped<IUrlHelper, UrlHelper>(
+                factory => new UrlHelper(factory.GetService<IActionContextAccessor>().ActionContext));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

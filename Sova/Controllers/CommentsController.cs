@@ -15,21 +15,26 @@ namespace Sova.Controllers
     public class CommentsController : Controller
     {
         private readonly IDataService _dataService;
+        private readonly IUrlHelper _urlHelper;
 
-        public CommentsController(IDataService dataService)
+        public CommentsController(IDataService dataService, IUrlHelper urlHelper)
         {
             _dataService = dataService;
+            _urlHelper = urlHelper;
         }
 
         [HttpGet(Name = nameof(GetComments))]
         public IActionResult GetComments(ResourceParameters resourceParameters)
         {
             var data = _dataService.GetComments(resourceParameters);
-            var result = Mapper.Map<IEnumerable<CommentListModel>>(data);
+            // var result = Mapper.Map<IEnumerable<CommentListModel>>(data);
             
             var linkedResult = new
             {
-                Result = result,
+                //Result = result,
+                //Result = data.Select(CreateLinks),
+                //Values = data.Select(x => CreateLinks<CommentListModel>(x, Url)),
+                Values = data.Select(CreateLinks<CommentListModel>),
                 Links = CreateLinks(data, nameof(GetComments))
             };
             return Ok(linkedResult);
@@ -40,8 +45,9 @@ namespace Sova.Controllers
         {
             var comment = _dataService.GetComment(id);
             if (comment == null) return NotFound();
-            var model = Mapper.Map<CommentModel>(comment);
-            return Ok(model);
+            //var model = Mapper.Map<CommentModel>(comment);
+            //return Ok(model);
+            return Ok(CreateLinks<CommentModel>(comment));
         }
 
         //////////////////////////////////////////////
@@ -56,7 +62,7 @@ namespace Sova.Controllers
             {
                 new LinkModel
                 {
-                    Href = Url.Link(route, new {data.CurrentPage, data.PageSize}),
+                    Href = _urlHelper.Link(route, new {data.CurrentPage, data.PageSize}),
                     Rel = "self",
                     Method = "GET"
                 }
@@ -66,7 +72,7 @@ namespace Sova.Controllers
             {
                 links.Add(new LinkModel
                 {
-                    Href = Url.Link(route, new {PageNumber = data.CurrentPage - 1, data.PageSize}),
+                    Href = _urlHelper.Link(route, new {PageNumber = data.CurrentPage - 1, data.PageSize}),
                     Rel = "prev_page",
                     Method = "GET"
                 });
@@ -76,13 +82,21 @@ namespace Sova.Controllers
             {
                 links.Add(new LinkModel
                 {
-                    Href = Url.Link(route, new {pageNumber = data.CurrentPage + 1, data.PageSize}),
+                    Href = _urlHelper.Link(route, new {pageNumber = data.CurrentPage + 1, data.PageSize}),
                     Rel = "next_page",
                     Method = "GET"
                 });
             }
 
             return links;
+        }
+
+        private T CreateLinks<T>(Comment comment) where T : LinkedResourceModel
+        {
+            var model = Mapper.Map<T>(comment);
+            model.Url = _urlHelper.Link(nameof(GetComment), new {comment.Id});
+
+            return model;
         }
 
     }
