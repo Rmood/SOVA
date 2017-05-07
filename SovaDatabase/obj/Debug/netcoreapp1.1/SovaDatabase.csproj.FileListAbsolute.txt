@@ -1,0 +1,11 @@
+C:\Users\kerem\OneDrive\RAWDATA\SovaSolution\SovaDatabase\bin\Debug\netcoreapp1.1\SovaDatabase.deps.json
+C:\Users\kerem\OneDrive\RAWDATA\SovaSolution\SovaDatabase\bin\Debug\netcoreapp1.1\SovaDatabase.dll
+C:\Users\kerem\OneDrive\RAWDATA\SovaSolution\SovaDatabase\obj\Debug\netcoreapp1.1\SovaDatabase.csprojResolveAssemblyReference.cache
+C:\Users\kerem\OneDrive\RAWDATA\SovaSolution\SovaDatabase\obj\Debug\netcoreapp1.1\SovaDatabase.AssemblyInfo.cs
+C:\Users\kerem\OneDrive\RAWDATA\SovaSolution\SovaDatabase\bin\Debug\netcoreapp1.1\SovaDatabase.pdb
+C:\Users\kerem\OneDrive\RAWDATA\SovaSolution\SovaDatabase\bin\Debug\netcoreapp1.1\DataAccessLayer.dll
+C:\Users\kerem\OneDrive\RAWDATA\SovaSolution\SovaDatabase\bin\Debug\netcoreapp1.1\DomainModel.dll
+C:\Users\kerem\OneDrive\RAWDATA\SovaSolution\SovaDatabase\bin\Debug\netcoreapp1.1\DataAccessLayer.pdb
+C:\Users\kerem\OneDrive\RAWDATA\SovaSolution\SovaDatabase\bin\Debug\netcoreapp1.1\DomainModel.pdb
+C:\Users\kerem\OneDrive\RAWDATA\SovaSolution\SovaDatabase\obj\Debug\netcoreapp1.1\SovaDatabase.dll
+C:\Users\kerem\OneDrive\RAWDATA\SovaSolution\SovaDatabase\obj\Debug\netcoreapp1.1\SovaDatabase.pdb
