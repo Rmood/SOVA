@@ -27,17 +27,7 @@ namespace Sova.Controllers
         public IActionResult GetComments(ResourceParameters resourceParameters)
         {
             var data = _dataService.GetComments(resourceParameters);
-            // var result = Mapper.Map<IEnumerable<CommentListModel>>(data);
-            
-            var linkedResult = new
-            {
-                //Result = result,
-                //Result = data.Select(CreateLinks),
-                //Values = data.Select(x => CreateLinks<CommentListModel>(x, Url)),
-                Values = data.Select(CreateLinks<CommentListModel>),
-                Links = CreateLinks(data, nameof(GetComments))
-            };
-            return Ok(linkedResult);
+            return Ok(value: CreateLinkedResult(data));
         }
 
         [HttpGet("{id}", Name = nameof(GetComment))]
@@ -56,47 +46,61 @@ namespace Sova.Controllers
         /// 
         //////////////////////////////////////////////
 
-        private List<LinkModel> CreateLinks(PagedList<Comment> data, string route)
+        private object CreateLinkedResult(PagedList<Comment> data)
+        {
+            return new
+            {
+                Values = data.Select(CreateLinks<CommentListModel>),
+                Links = CreateLinks(data)
+            };
+        }
+
+        private List<LinkModel> CreateLinks(PagedList<Comment> data)
         {
             var links = new List<LinkModel>
             {
-                new LinkModel
-                {
-                    Href = _urlHelper.Link(route, new {data.CurrentPage, data.PageSize}),
-                    Rel = "self",
-                    Method = "GET"
-                }
+                CreateLinkModel(nameof(GetComments), new {data.CurrentPage, data.PageSize}, "self", "GET")
             };
 
             if (data.hasPrev)
             {
-                links.Add(new LinkModel
+                links.Add(CreateLinkModel(nameof(GetComments), new
                 {
-                    Href = _urlHelper.Link(route, new {PageNumber = data.CurrentPage - 1, data.PageSize}),
-                    Rel = "prev_page",
-                    Method = "GET"
-                });
+                    PageNumber = data.CurrentPage -1, data.PageSize
+                }, "prev_page", "GET"));
             }
 
             if (data.hasNext)
             {
-                links.Add(new LinkModel
+                links.Add(CreateLinkModel(nameof(GetComments), new
                 {
-                    Href = _urlHelper.Link(route, new {pageNumber = data.CurrentPage + 1, data.PageSize}),
-                    Rel = "next_page",
-                    Method = "GET"
-                });
+                    PageNumber = data.CurrentPage +1, data.PageSize}, "next_page", "GET"));
             }
-
             return links;
         }
 
         private T CreateLinks<T>(Comment comment) where T : LinkedResourceModel
         {
+            var routeValues = new {comment.Id};
             var model = Mapper.Map<T>(comment);
-            model.Url = _urlHelper.Link(nameof(GetComment), new {comment.Id});
+            model.Url = CreateUrl(nameof(GetComment), routeValues);
 
             return model;
+        }
+
+        private LinkModel CreateLinkModel(string routeString, object routeValues, string rel, string method)
+        {
+            return new LinkModel
+            {
+                Href = CreateUrl(routeString, routeValues),
+                Rel = rel,
+                Method = method
+            };
+        }
+
+        private string CreateUrl(string routeString, object routeValues)
+        {
+            return _urlHelper.Link(routeString, routeValues);
         }
 
     }
